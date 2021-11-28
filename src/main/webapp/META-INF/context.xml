@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <!-- Specify a JDBC datasource -->
+    <Resource name="jdbc/ConnectPull"
+    auth="Container"
+    type="javax.sql.DataSource"
+    username="skiba"
+    password="0909"
+    driverClassName="com.mysql.cj.jdbc.Driver"
+    url="jdbc:mysql://localhost:3306/elective_db?autoReconnect=true"
+    validationQuery="select 1"
+    maxActive="10"
+    maxIdle="4"/>
+
+</Context>
