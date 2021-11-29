@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <html>
 <head><meta charset="UTF-8">
@@ -19,11 +20,6 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 <div class="container mt-3">
-<%--<ul class="breadcrumb">--%>
-<%--    <li class="breadcrumb-item"><a href="admin.jsp">Menu</a></li>--%>
-<%--    <li class="breadcrumb-item"><a href="controller?command=adminInfoMenu">My Info</a></li>--%>
-<%--    <li class="breadcrumb-item"><a href="#">Sing Out</a></li>--%>
-<%--</ul>--%>
 
 <h3>Registration form for Teacher</h3>
 <hr/>
@@ -32,7 +28,6 @@
 
     <p style="color: red;">${sessionScope.ErrorMes}</p>
 
-<%--        <div class="container col-lg-4">--%>
             <h2 class="text-center">REGISTRATION TEACHER</h2>
             <p class="text-center">Please fill in this form to create teacher account.</p>
             <hr>
@@ -75,34 +70,11 @@
             <hr>
             <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>
 
-<%--        </div>--%>
     </form>
-<%--    Login:<br/>--%>
-<%--    <input type="text" name="login" value=""><br/>--%>
 
-<%--    Password:<br/>--%>
-<%--    <input type="password" name="password" value=""><br/>--%>
-
-<%--    Email:<br/>--%>
-<%--    <input type="email" name="email" value=""><br/>--%>
-
-<%--    Telephone:<br/>--%>
-<%--    <input type="tel" name="telephone" value=""><br/>--%>
-
-<%--    Name:<br/>--%>
-<%--    <input type="text" name="name" value=""><br/>--%>
-
-<%--    Surname:<br/>--%>
-<%--    <input type="text" name="surname" value=""><br/>--%>
-
-<%--    Role:<br/>--%>
-<%--    <input type="text" name="role" value=""><br/>--%>
-
-<%--    <input type="submit" value="Enter">--%>
-
-<%--</form>--%>
 <hr/>
 </div>
 <jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>
+<c:remove var="ErrorMes"/>

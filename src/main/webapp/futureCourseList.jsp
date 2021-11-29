@@ -21,23 +21,12 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 <div class="container mt-3">
-    <%--<div class="container-fluid">--%>
-<%--    <ul class="breadcrumb">--%>
-<%--        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/controller?command=studentMainMenu">My Info</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/controller?command=studentMenuFutureCourses&idProfile=${student.idProfile}">My courses</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="#">Sing Out</a></li>--%>
-<%--    </ul>--%>
-
-    <%--<div style="padding: 5px;">--%>
-
-    <%--    <a href="${pageContext.request.contextPath}/controller?command=studentMainMenu">Home</a>--%>
-    <%--</div>--%>
 
     <h3>List of future courses</h3>
 
     <table class="table table-bordered">
         <thead>
-        <%--<table border="1" cellpadding="5" cellspacing="1" >--%>
+
         <tr>
             <th>Course id</th>
             <th>Course name</th>
@@ -66,7 +55,6 @@
         <table class="table table-bordered">
             <thead>
 
-<%--    <table border="1" cellpadding="5" cellspacing="1">--%>
         <tr>
             <th>Course id</th>
             <th>Course name</th>
@@ -92,7 +80,7 @@
     <h3>List of past courses and grades</h3>
         <table class="table table-bordered">
             <thead>
-<%--    <table border="1" cellpadding="5" cellspacing="1">--%>
+
         <tr>
             <th>Course id</th>
             <th>Course name</th>

@@ -35,8 +35,6 @@ public class RegistrationCommand implements Command{
         if (login!=null && !login.isEmpty()){
             profile.setLogin(login);
         }else {
-//            String loginMess = "login cannot be empty";
-//            req.setAttribute("loginMess", loginMess);
             mess = "login cannot be empty";
             req.getSession().setAttribute("loginMess", mess);
             return req.getContextPath().concat("/").concat("registration.jsp");
@@ -44,8 +42,6 @@ public class RegistrationCommand implements Command{
         if (password!=null && !password.isEmpty()) {
             profile.setPassword(password);
         }else {
-//            String passwordMess = "password cannot be empty";
-//            req.setAttribute("passwordMess", passwordMess);
             mess = "password cannot be empty";
             req.getSession().setAttribute("passwordMess", mess);
             return req.getContextPath().concat("/").concat("registration.jsp");
@@ -53,7 +49,6 @@ public class RegistrationCommand implements Command{
         if (email!=null && email.contains("@")){
             profile.setEmail(email);
         }else {
-//            String emailMess = "incorrect email";
             mess = "incorrect email";
             req.getSession().setAttribute("emailMess", mess);
             return req.getContextPath().concat("/").concat("registration.jsp");
@@ -61,7 +56,6 @@ public class RegistrationCommand implements Command{
         if (telephone!=null && telephone.length()==12) {
             profile.setTelephone(telephone);
         }else {
-//            String telMess = "incorrect telephone";
             mess = "incorrect telephone";
             req.getSession().setAttribute("telMess", mess);
             return req.getContextPath().concat("/").concat("registration.jsp");

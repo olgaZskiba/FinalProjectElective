@@ -8,6 +8,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%@ taglib prefix="tf" tagdir="/WEB-INF/tags" %>
+
 <nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
@@ -68,9 +70,7 @@
                             Script</a></li>
                     </ul>
                 </li>
-                <%--            <li class="nav-item">--%>
-                <%--                <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=topicList&page=1&pageSize=3">Topic List</a>--%>
-                <%--            </li>--%>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Courses
                         Info</a>
@@ -92,9 +92,6 @@
                             courses by Students</a></li>
                     </ul>
                 </li>
-                <%--            <li class="nav-item">--%>
-                <%--                <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=commonMainMenu&page=1&pageSize=6">Courses Info</a>--%>
-                <%--            </li>--%>
 
                 <li class="nav-item">
                     <a class="nav-link"
@@ -113,6 +110,9 @@
         <li class="breadcrumb-item"><a href="controller?command=adminInfoMenu">My Info</a></li>
         <li class="breadcrumb-item"><a href="controller?command=logout">LogOut</a></li>
     </ul>
+        <div class="text-black text-lg-end">
+            Date: <tf:tagfile/>
+        </div>
     </div>
 </c:if>
 

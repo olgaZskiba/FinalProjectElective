@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 public class UpdateBlockStatusCommand implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DBException {
+        String message = "";
+
         String id = req.getParameter("idProfile");
         Long idProfile = Long.parseLong(id);
 
@@ -27,22 +29,12 @@ public class UpdateBlockStatusCommand implements Command {
             profile.setBlockStatus(0);
         }
 
-//        profile.setBlockStatus(Integer.parseInt(blockStatus));
-
-
-
-
-        //        if (profile != null && blockStatus.equals("true")) {
-//            profile.setBlockStatus(1);
-//        }
-//        else if (profile!= null && blockStatus.equals("false")){
-//            profile.setBlockStatus(0);
-//        }
-
         if(UserManager.updateBlockStatusProfile(profile)){
         return "controller?command=allStudents";
         }
         else {
+            message = "Can't update block status";
+            req.setAttribute("message", message);
             return "error.jsp";
         }
     }

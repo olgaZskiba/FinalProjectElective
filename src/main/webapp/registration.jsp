@@ -5,44 +5,9 @@
   Time: 12:00
   To change this template use File | Settings | File Templates.
 --%>
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
-<%--<html>--%>
-<%--<head>--%>
-<%--    <title>Registration</title>--%>
-<%--</head>--%>
-<%--<body><h3>Registration</h3>--%>
-<%--<hr/>--%>
-<%--<form name="registrationForm" method="POST" action="controller">--%>
-<%--    <input type="hidden" name="command" value="registration"/>--%>
-
-<%--    Login:<br/>--%>
-<%--    <input type="text" name="login" value=""><br/>--%>
-
-<%--    Password:<br/>--%>
-<%--    <input type="password" name="password" value=""><br/>--%>
-
-<%--    Email:<br/>--%>
-<%--    <input type="email" name="email" value=""><br/>--%>
-
-<%--    Telephone:<br/>--%>
-<%--    <input type="tel" name="telephone" value=""><br/>--%>
-
-<%--    Name:<br/>--%>
-<%--    <input type="text" name="name" value=""><br/>--%>
-
-<%--    Surname:<br/>--%>
-<%--    <input type="text" name="surname" value=""><br/>--%>
-
-<%--    <input type="submit" value="Enter">--%>
-
-<%--</form>--%>
-<%--<hr/>--%>
-<%--</body>--%>
-<%--</html>--%>
-
-
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <html>
 <head>
@@ -113,3 +78,8 @@
 <jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>
+<c:remove var="commonMess"/>
+<c:remove var="loginMess"/>
+<c:remove var="passwordMess"/>
+<c:remove var="emailMess"/>
+<c:remove var="telMess"/>

@@ -23,15 +23,9 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 <div class="container mt-3">
-<%--    <ul class="breadcrumb">--%>
-<%--        <li class="breadcrumb-item"><a href="admin.jsp">Menu</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="controller?command=adminInfoMenu">My Info</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="#">Sing Out</a></li>--%>
-<%--    </ul>--%>
 
 <h3>Courses List</h3>
 
-<%--<table border="1" cellpadding="5" cellspacing="1" >--%>
     <table class="table table-bordered">
         <thead>
     <tr>

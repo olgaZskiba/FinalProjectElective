@@ -22,12 +22,8 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 <div class="container mt-3">
-    <%--<div class="container-fluid">--%>
-<%--    <ul class="breadcrumb">--%>
-<%--        <li class="breadcrumb-item"><a href="controller?command=coursesForTeacherMenu">Menu</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="controller?command=teacherInfoMenu">My Info</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="#">Sing Out</a></li>--%>
-<%--    </ul>--%>
+
+        <p style="color: red;">${requestScope.emptyMess}</p>
 
 <h1>TEACHER menu</h1>
 <br>
@@ -35,7 +31,7 @@
 <br>
         <table class="table table-bordered">
             <thead>
-<%--<table border="1" cellpadding="5" cellspacing="1" >--%>
+
     <tr>
         <th>Course id</th>
         <th>Course name</th>
@@ -68,3 +64,4 @@
 <jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>
+<c:remove var="emptyMess"/>

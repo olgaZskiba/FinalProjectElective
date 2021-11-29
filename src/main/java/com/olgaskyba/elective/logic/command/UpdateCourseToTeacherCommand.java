@@ -31,6 +31,6 @@ public class UpdateCourseToTeacherCommand implements Command{
         if(CourseManager.updateCourseToTeacher(profileCourse)){
             return "controller?command=teachersForAdminMenu";
         }
-        return "notUpdateCourseToTeacher.jsp";
+        return "error.jsp";
     }
 }

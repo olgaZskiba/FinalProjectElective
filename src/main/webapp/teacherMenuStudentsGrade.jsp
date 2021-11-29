@@ -22,24 +22,13 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 <div class="container mt-3">
-    <%--<div class="container-fluid">--%>
-<%--    <ul class="breadcrumb">--%>
-<%--        <li class="breadcrumb-item"><a href="controller?command=coursesForTeacherMenu">Menu</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="controller?command=teacherInfoMenu">My Info</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="#">Sing Out</a></li>--%>
-<%--    </ul>--%>
-
-<%--<form method="POST" action="controller">--%>
-<%--    <input type="hidden" name="command" value="teacherMenuUpdateGrade"/>--%>
-
-<%--<h1>TEACHER menu</h1>--%>
 
 <br>
 <h3>Students and they grades</h3>
 <br>
     <table class="table table-bordered">
         <thead>
-<%--<table border="1" cellpadding="5" cellspacing="1" >--%>
+
     <tr>
         <th>Student id</th>
         <th>Student name</th>
@@ -61,7 +50,7 @@
             <td>${gradeBookList.courseName}</td>
             <td>${gradeBookList.startDayCourse}</td>
             <td>${gradeBookList.grade}</td>
-<%--            <td><input type="submit" value="Edit Grade"></td>--%>
+
             <td>
                 <a href="${pageContext.request.contextPath}/controller?command=teacherMenuUpdateGrade&idStudent=${gradeBookList.idStudent}&idCourse=${gradeBookList.idCourse}">Edit</a>
             </td>

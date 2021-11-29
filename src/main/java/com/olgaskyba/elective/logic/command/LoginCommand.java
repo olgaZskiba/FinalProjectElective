@@ -16,46 +16,6 @@ public class LoginCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(LoginCommand.class);
 
-//    @Override
-//    public String execute(HttpServletRequest req, HttpServletResponse resp) throws DBException {
-//        String page = null;
-//        String login = req.getParameter("login");
-//        log.trace("login ==> " + login);
-//        String password = req.getParameter("password");
-//        log.trace("password ==> " + password);
-//        Profile profile = new Profile();
-//        profile.setLogin(login);
-//        profile.setPassword(password);
-//        if (UserManager.checkLogic(login, password)) {
-//            HttpSession session = req.getSession();
-//            session.setAttribute("login", login);
-////            return "admin.jsp";
-//            log.trace("redirect on admin page");
-//            return req.getContextPath().concat("/").concat("admin.jsp");
-////            try {
-////                resp.sendRedirect("admin.jsp");
-////            } catch (IOException e) {
-////                e.printStackTrace();
-////            }
-//        } else {
-//            HttpSession session = req.getSession();
-//            session.setAttribute("profile", login);
-////            return "login.jsp";
-//            log.trace("cant redirect , return login page");
-//            return req.getContextPath().concat("/").concat("login.jsp");
-////            try {
-////                resp.sendRedirect("login.jsp");
-////            } catch (IOException e) {
-////                e.printStackTrace();
-////            }
-////        }
-//
-//            // save an athenticated user as an attribute in the session!
-//            // current user
-//        }
-//
-//    }
-
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DBException {
         req.getSession().removeAttribute("errorMsg");
@@ -112,7 +72,7 @@ public class LoginCommand implements Command {
             HttpSession session = req.getSession();
             session.setAttribute("profile", profile);
             log.trace("cant redirect , return login page");
-            errorMsg = "Register please!";
+            errorMsg = "Register please or add correct data";
             page = "login.jsp";
         }
 

@@ -23,35 +23,6 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 
-<%--<div class="container mt-3">--%>
-<%--    <ul class="breadcrumb">--%>
-<%--        <li class="breadcrumb-item active">Topics</li>--%>
-<%--        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/controller?command=topicList&topic=java&page=1&pageSize=4">JAVA</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/controller?command=topicList&topic=.net&page=1&pageSize=4">.NET</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/controller?command=topicList&topic=cPlus&page=1&pageSize=4">C++</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/controller?command=topicList&topic=javaScript&page=1&pageSize=4">Java Script</a></li>--%>
-
-<%--    </ul>--%>
-<%--</div>--%>
-
-<%--<div style="padding: 5px;">--%>
-
-<%--    <a href="${pageContext.request.contextPath}/">Home</a>--%>
-<%--    |--%>
-<%--    <a href="${pageContext.request.contextPath}/login.jsp">Login</a>--%>
-<%--    |--%>
-<%--    Sort courses by:--%>
-<%--    <a href="${pageContext.request.contextPath}/controller?command=topicList&topic=java&page=1&pageSize=4">JAVA</a>--%>
-<%--    |--%>
-<%--    <a href="${pageContext.request.contextPath}/controller?command=topicList&topic=.net&page=1&pageSize=4">.NET</a>--%>
-<%--    |--%>
-<%--    <a href="${pageContext.request.contextPath}/controller?command=topicList&topic=cPlus&page=1&pageSize=4">C++</a>--%>
-<%--    |--%>
-<%--    <a href="${pageContext.request.contextPath}/controller?command=topicList&topic=javaScript&page=1&pageSize=4">Java Script</a>--%>
-
-
-<%--</div>--%>
-
 Page ${page} of ${pageCount}
 
 |

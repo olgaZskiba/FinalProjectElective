@@ -21,26 +21,8 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 <div class="container mt-3">
-    <%--<div class="container-fluid">--%>
-<%--    <ul class="breadcrumb">--%>
-<%--        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/controller?command=studentMainMenu">My Info</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/controller?command=studentMenuFutureCourses&idProfile=${student.idProfile}">My courses</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/index.jsp">Common main menu</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="#">Sing Out</a></li>--%>
-<%--    </ul>--%>
 
-<h1>STUDENT menu</h1>
-
-<%--<div style="padding: 5px;">--%>
-
-<%--    <a href="${pageContext.request.contextPath}/controller?command=studentMainMenu">Home</a>--%>
-<%--    |--%>
-<%--    <a href="${pageContext.request.contextPath}/controller?command=studentMenuFutureCourses&idProfile=${student.idProfile}">List of future courses</a>--%>
-<%--    |--%>
-<%--    <a href="${pageContext.request.contextPath}/controller?command=studentMenuCurrentCourses&idProfile=${student.idProfile}">List of current courses</a>--%>
-<%--    |--%>
-<%--    <a href="${pageContext.request.contextPath}/controller?command=studentMenuPastCourses&idProfile=${student.idProfile}">List of past courses</a>--%>
-
+    <h1>STUDENT menu</h1>
 
     <h3>Your info</h3>
         <br>

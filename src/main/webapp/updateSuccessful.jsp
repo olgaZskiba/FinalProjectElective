@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
 <head>
@@ -20,14 +21,9 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 
-<%--<form method="POST" action="controller">--%>
-<%--    <input type="hidden" name="command" value="studentMainMenu"/>--%>
 
     <h3>${sessionScope.login} was add to course ${sessionScope.idCourse}</h3>
 
-<%--    <td><input type="submit" value="Return to main menu"></td>--%>
-
-<%--</form>--%>
 
 <jsp:include page="_footer.jsp"></jsp:include>
 </body>

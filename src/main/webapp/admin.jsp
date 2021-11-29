@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="tf" tagdir="/WEB-INF/tags" %>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <html>
 <head>
@@ -21,12 +23,7 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 <div class="container mt-3">
-    <%--<div class="container-fluid">--%>
-<%--    <ul class="breadcrumb">--%>
-<%--        <li class="breadcrumb-item"><a href="admin.jsp">Menu</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="controller?command=adminInfoMenu">My Info</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="controller?command=logout">Sing Out</a></li>--%>
-<%--    </ul>--%>
+
         <p><h3>ADMIN menu</h3></p>
 
         <br>
@@ -35,9 +32,7 @@
         <a href="${pageContext.request.contextPath}/registerTeacher.jsp">Register form for new teacher</a>
         <br>
         <br>
-        <%--<a href="${pageContext.request.contextPath}/teachersForAdminMenu">Assigning a course to a teacher</a>--%>
-        <a href="${pageContext.request.contextPath}/controller?command=teachersForAdminMenu">Assigning a course to a
-            teacher</a>
+        <a href="${pageContext.request.contextPath}/controller?command=teachersForAdminMenu">Assigning a course to a teacher</a>
         <br>
         <br>
         <li>Course menu</li>

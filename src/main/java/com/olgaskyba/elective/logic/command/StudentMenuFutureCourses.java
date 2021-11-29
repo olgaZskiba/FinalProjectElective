@@ -20,9 +20,6 @@ public class StudentMenuFutureCourses implements Command {
 
         Long idStudent = profile.getIdProfile();
 
-//        String id = req.getParameter("idProfile");
-//        Long idStudent = Long.parseLong(id);
-
         List<GradeBook> profileCourseList = UserManager.findFutureCoursesForStudent(idStudent);
         req.setAttribute("profileCourseList", profileCourseList);
 

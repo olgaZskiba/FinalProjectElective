@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TeacherMenuApproveUpdateGrade implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DBException {
+        String message = "";
         String idStudent = req.getParameter("idStudent");
         Long studentId = Long.parseLong(idStudent);
 
@@ -26,6 +27,8 @@ public class TeacherMenuApproveUpdateGrade implements Command {
             return "controller?command=teacherMenuCoursesDetails&idCourse="+idCourse;
         }
         else {
+            message = "Can't update grade student";
+            req.setAttribute("message", message);
             return "error.jsp";
         }
     }

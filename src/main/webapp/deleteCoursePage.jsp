@@ -20,18 +20,13 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 <div class="container mt-3">
-    <%--<div class="container-fluid">--%>
-<%--    <ul class="breadcrumb">--%>
-<%--        <li class="breadcrumb-item"><a href="admin.jsp">Menu</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="controller?command=adminInfoMenu">My Info</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="#">Sing Out</a></li>--%>
-<%--    </ul>--%>
+
 <form name="idCourse" method="POST" action="controller">
     <input type="hidden" name="command" value="approveDeleteCourse"/>
 
-<%--    <div class="container col-lg-4">--%>
+
         <h4 class="text-center">Do you want to delete this course?</h4>
-<%--    <table border="1" cellpadding="5" cellspacing="1" >--%>
+
         <table class="table table-bordered">
             <thead>
         <tr>
@@ -55,8 +50,8 @@
             </tr>
             </tbody>
     </table>
-    </div>
 </form>
+</div>
         <jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>

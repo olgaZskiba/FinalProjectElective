@@ -3,9 +3,7 @@ package com.olgaskyba.elective.logic.command;
 import com.olgaskyba.elective.exception.DBException;
 import com.olgaskyba.elective.logic.CourseManager;
 
-import com.olgaskyba.elective.model.Course;
 import com.olgaskyba.elective.model.ProfileCourse;
-import com.olgaskyba.elective.model.Topic;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

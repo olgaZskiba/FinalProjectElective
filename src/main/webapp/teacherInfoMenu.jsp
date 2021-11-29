@@ -20,12 +20,6 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 <div class="container mt-3">
-    <%--<div class="container-fluid">--%>
-<%--    <ul class="breadcrumb">--%>
-<%--        <li class="breadcrumb-item"><a href="controller?command=coursesForTeacherMenu">Menu</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="controller?command=teacherInfoMenu">My Info</a></li>--%>
-<%--        <li class="breadcrumb-item"><a href="#">Sing Out</a></li>--%>
-<%--    </ul>--%>
 
         <h3>Your info</h3>
         <br>

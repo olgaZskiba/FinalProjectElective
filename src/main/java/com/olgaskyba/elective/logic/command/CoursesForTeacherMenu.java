@@ -13,9 +13,15 @@ public class CoursesForTeacherMenu implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DBException {
         String loginSession = (String) req.getSession().getAttribute("login");
+        String emptyMess = "";
 
         List<ProfileCourse> profileCourses = UserManager.findCoursesForTeacher(loginSession);
-        req.setAttribute("profileCourses", profileCourses);
+        if (!profileCourses.isEmpty()) {
+            req.setAttribute("profileCourses", profileCourses);
+            return "teacher.jsp";
+        }else
+            emptyMess = "You haven't assigned courses";
+        req.setAttribute("emptyMess", emptyMess);
         return "teacher.jsp";
     }
 }

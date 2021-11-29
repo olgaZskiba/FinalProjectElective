@@ -16,6 +16,9 @@ public class CreateCourseCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DBException {
+        String errMess = "";
+        HttpSession session = req.getSession();
+
         String courseName = req.getParameter("courseName");
         String topicCourse = req.getParameter("courseTopic");
         Integer topicId = Integer.parseInt(topicCourse);
@@ -23,18 +26,36 @@ public class CreateCourseCommand implements Command {
         Integer duration = Integer.parseInt(durationCourse);
 
         Course course = new Course();
-        course.setCourseName(courseName);
-        course.setCourseTopic(topicId);
-        course.setDuration(duration);
+        if (!courseName.isEmpty()) {
+            course.setCourseName(courseName);
+        } else {
+            errMess = "field Course name can't be empty";
+            session.setAttribute("errMess", errMess);
+            return req.getContextPath().concat("/").concat("courseCreateForm.jsp");
+        }
+        if (topicId != null) {
+            course.setCourseTopic(topicId);
+        } else {
+            errMess = "field Topic id can't be empty";
+            session.setAttribute("errMess", errMess);
+            return req.getContextPath().concat("/").concat("courseCreateForm.jsp");
+        }
+        if (duration != null) {
+            course.setDuration(duration);
+        } else {
+            errMess = "field duration can't be empty";
+            session.setAttribute("errMess", errMess);
+            return req.getContextPath().concat("/").concat("courseCreateForm.jsp");
+        }
 
-        if (CourseManager.createCourseForAdminMenu(course)){
-            HttpSession session = req.getSession();
+        if (CourseManager.createCourseForAdminMenu(course)) {
             session.setAttribute("createCourse", courseName);
             log.trace("create course and redirect on allCourses page");
             return req.getContextPath().concat("/").concat("controller?command=allCourses");
-        }else{
-            HttpSession session = req.getSession();
+        } else {
             session.setAttribute("course", course);
+            errMess = "cant create course";
+            session.setAttribute("errMess", errMess);
             log.trace("cant create course, return form course creation page");
             return req.getContextPath().concat("/").concat("courseCreateForm.jsp");
         }

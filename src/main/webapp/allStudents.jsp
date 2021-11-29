@@ -24,17 +24,12 @@
 <jsp:include page="_menu.jsp"></jsp:include>
 
 <div class="container mt-3">
-<%--  <ul class="breadcrumb">--%>
-<%--    <li class="breadcrumb-item"><a href="admin.jsp">Menu</a></li>--%>
-<%--    <li class="breadcrumb-item"><a href="controller?command=adminInfoMenu">My Info</a></li>--%>
-<%--    <li class="breadcrumb-item"><a href="#">Sing Out</a></li>--%>
-<%--  </ul>--%>
 
 <h3>Student List for set or remove block status</h3>
 
   <table class="table table-bordered">
     <thead>
-<%--<table border="1" cellpadding="5" cellspacing="1" >--%>
+
   <tr>
     <th>Student id</th>
     <th>Student name</th>

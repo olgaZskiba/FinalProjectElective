@@ -30,7 +30,7 @@ public class Controller extends HttpServlet {
            adress = command.execute(req, resp);
            log.trace("adress ==> " + adress);
        }catch (DBException ex){
-           req.setAttribute("ex: ", ex);
+           req.setAttribute("ex", ex);
        }
        req.getRequestDispatcher(adress).forward(req, resp);
     }
@@ -50,7 +50,7 @@ public class Controller extends HttpServlet {
             adress = command.execute(req, resp);
             log.trace("adress ==> " + adress);
         }catch (DBException ex){
-            req.getSession().setAttribute("ex: ", ex);
+            req.getSession().setAttribute("ex", ex);
         }
         resp.sendRedirect(adress);
     }
