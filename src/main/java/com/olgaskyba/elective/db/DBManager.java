@@ -65,6 +65,7 @@ public class DBManager {
     private static final String SQL_GET_SIZE_COURSES_ASSIGNED_TO_TEACHER = "SELECT COUNT(*) FROM profile_course WHERE id_prifile=?";
     private static final String SQL_INSERT_PROFILE_COURSE = "INSERT INTO profile_course(id_prifile) VALUES (?)";
     private static final String SQL_INSERT_PROFILE_TO_GRADEBOOK = "INSERT INTO gradebook SET student_id_prifile=(SELECT id_prifile FROM profile WHERE id_prifile=?), course_id_course=(SELECT id_course FROM course WHERE id_course=?)";
+    private static final String SQL_GET_TOPIC_ID_BY_TOPIC_NAME = "SELECT * FROM topic WHERE name=?";
 
     private static DBManager instance;
 
@@ -86,7 +87,7 @@ public class DBManager {
                 Course course = new Course();
                 course.setIdCourse(resultSet.getLong(1));
                 course.setCourseName(resultSet.getString(2));
-                course.setCourseTopic((resultSet.getInt(3)));
+                course.setCourseTopic((resultSet.getLong(3)));
                 course.setDuration((resultSet.getInt(4)));
                 courseList.add(course);
             }
@@ -103,8 +104,8 @@ public class DBManager {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_COURSE, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, course.getCourseName());
-            preparedStatement.setInt(2, (course.getCourseTopic()));
-            preparedStatement.setInt(3, (course.getDuration()));
+            preparedStatement.setLong(2, course.getCourseTopic());
+            preparedStatement.setInt(3, course.getDuration());
 
             if (preparedStatement.executeUpdate() != 1) {
                 return false;
@@ -239,16 +240,17 @@ public class DBManager {
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
             try (ResultSet rs = preparedStatement.executeQuery();) {
-                while (rs.next()) {
-                    profile.setIdProfile(rs.getLong(1));
-                    profile.setLogin(rs.getString(2));
-                    profile.setPassword(rs.getString(3));
-                    profile.setEmail(rs.getString(4));
-                    profile.setTelephone(rs.getString(5));
-                    profile.setName(rs.getString(6));
-                    profile.setSurname(rs.getString(7));
-                    profile.setRole(rs.getString(8));
-                    profile.setBlockStatus(rs.getInt(9));
+                if (rs.next()) {
+                    profile = extractProfile(rs);
+//                    profile.setIdProfile(rs.getLong(1));
+//                    profile.setLogin(rs.getString(2));
+//                    profile.setPassword(rs.getString(3));
+//                    profile.setEmail(rs.getString(4));
+//                    profile.setTelephone(rs.getString(5));
+//                    profile.setName(rs.getString(6));
+//                    profile.setSurname(rs.getString(7));
+//                    profile.setRole(rs.getString(8));
+//                    profile.setBlockStatus(rs.getInt(9));
                 }
             }
         } catch (SQLException e) {
@@ -266,7 +268,7 @@ public class DBManager {
                 if (resultSet.next()) {
                     course.setIdCourse(resultSet.getLong("id_course"));
                     course.setCourseName(resultSet.getString("course_name"));
-                    course.setCourseTopic(resultSet.getInt("course_topic"));
+                    course.setCourseTopic(resultSet.getLong("course_topic"));
                     course.setDuration(resultSet.getInt("duration"));
                     return course;
                 }
@@ -280,7 +282,7 @@ public class DBManager {
     public boolean updateCourse(Connection connection, Course course) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_COURSE)) {
             preparedStatement.setString(1, course.getCourseName());
-            preparedStatement.setInt(2, course.getCourseTopic());
+            preparedStatement.setLong(2, course.getCourseTopic());
             preparedStatement.setInt(3, course.getDuration());
             preparedStatement.setLong(4, course.getIdCourse());
             if (preparedStatement.executeUpdate() != 1) {
@@ -313,15 +315,16 @@ public class DBManager {
              ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_STUDENTS)) {
             while (resultSet.next()) {
                 Profile profile = new Profile();
-                profile.setIdProfile(resultSet.getLong(1));
-                profile.setLogin(resultSet.getString(2));
-                profile.setPassword(resultSet.getString(3));
-                profile.setEmail(resultSet.getString(4));
-                profile.setTelephone(resultSet.getString(5));
-                profile.setName(resultSet.getString(6));
-                profile.setSurname(resultSet.getString(7));
-                profile.setRole(resultSet.getString(8));
-                profile.setBlockStatus(resultSet.getInt(9));
+                profile = extractProfile(resultSet);
+//                profile.setIdProfile(resultSet.getLong(1));
+//                profile.setLogin(resultSet.getString(2));
+//                profile.setPassword(resultSet.getString(3));
+//                profile.setEmail(resultSet.getString(4));
+//                profile.setTelephone(resultSet.getString(5));
+//                profile.setName(resultSet.getString(6));
+//                profile.setSurname(resultSet.getString(7));
+//                profile.setRole(resultSet.getString(8));
+//                profile.setBlockStatus(resultSet.getInt(9));
                 profileList.add(profile);
             }
         } catch (SQLException e) {
@@ -336,16 +339,17 @@ public class DBManager {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_PROFILE_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    profile.setIdProfile(resultSet.getLong(1));
-                    profile.setLogin(resultSet.getString(2));
-                    profile.setPassword(resultSet.getString(3));
-                    profile.setEmail(resultSet.getString(4));
-                    profile.setTelephone(resultSet.getString(5));
-                    profile.setName(resultSet.getString(6));
-                    profile.setSurname(resultSet.getString(7));
-                    profile.setRole(resultSet.getString(8));
-                    profile.setBlockStatus(resultSet.getInt(9));
+                if (resultSet.next()) {
+                    profile = extractProfile(resultSet);
+//                    profile.setIdProfile(resultSet.getLong(1));
+//                    profile.setLogin(resultSet.getString(2));
+//                    profile.setPassword(resultSet.getString(3));
+//                    profile.setEmail(resultSet.getString(4));
+//                    profile.setTelephone(resultSet.getString(5));
+//                    profile.setName(resultSet.getString(6));
+//                    profile.setSurname(resultSet.getString(7));
+//                    profile.setRole(resultSet.getString(8));
+//                    profile.setBlockStatus(resultSet.getInt(9));
                 }
             }
 
@@ -463,16 +467,17 @@ public class DBManager {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_PROFILE_BY_LOGIN)) {
             preparedStatement.setString(1, loginSession);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    profile.setIdProfile(resultSet.getLong(1));
-                    profile.setLogin(resultSet.getString(2));
-                    profile.setPassword(resultSet.getString(3));
-                    profile.setEmail(resultSet.getString(4));
-                    profile.setTelephone(resultSet.getString(5));
-                    profile.setName(resultSet.getString(6));
-                    profile.setSurname(resultSet.getString(7));
-                    profile.setRole(resultSet.getString(8));
-                    profile.setBlockStatus(resultSet.getInt(9));
+                if (resultSet.next()) {
+                    profile=extractProfile(resultSet);
+//                    profile.setIdProfile(resultSet.getLong(1));
+//                    profile.setLogin(resultSet.getString(2));
+//                    profile.setPassword(resultSet.getString(3));
+//                    profile.setEmail(resultSet.getString(4));
+//                    profile.setTelephone(resultSet.getString(5));
+//                    profile.setName(resultSet.getString(6));
+//                    profile.setSurname(resultSet.getString(7));
+//                    profile.setRole(resultSet.getString(8));
+//                    profile.setBlockStatus(resultSet.getInt(9));
                 }
             }
         } catch (SQLException e) {
@@ -568,7 +573,7 @@ public class DBManager {
         Course course = new Course();
         course.setIdCourse(resultSet.getLong("id_course"));
         course.setCourseName(resultSet.getString("course_name"));
-        course.setCourseTopic(resultSet.getInt("course_topic"));
+        course.setCourseTopic(resultSet.getLong("course_topic"));
         course.setDuration(resultSet.getInt("duration"));
         return course;
     }
@@ -918,5 +923,21 @@ public class DBManager {
         profileCourse.setStartDayCourse(resultSet.getDate(2));
         profileCourse.setCourseName(resultSet.getString(3));
         return profileCourse;
+    }
+
+    public Topic findTopicIdByName(Connection connection, String topicCourse) {
+        Topic topic = new Topic();
+        try(PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_TOPIC_ID_BY_TOPIC_NAME)) {
+            preparedStatement.setString(1, topicCourse);
+            try (ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    topic.setTopicId(resultSet.getLong(1));
+                    topic.setNameTopic(resultSet.getString(2));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return topic;
     }
 }

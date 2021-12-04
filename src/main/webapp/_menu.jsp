@@ -7,6 +7,7 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ taglib prefix="tf" tagdir="/WEB-INF/tags" %>
 
@@ -15,12 +16,12 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="${pageContext.request.contextPath}/">Home &nbsp; &nbsp; </a>
+                    <a class="nav-link active" href="${pageContext.request.contextPath}/"><fmt:message key="_menu.jsp_Home"/> &nbsp; &nbsp; </a>
                 </li>
 
                 <c:if test="${sessionScope.profileRole == null}">
                     <li class="nav-item">
-                        <a class="nav-link active" href="${pageContext.request.contextPath}/login.jsp">Login</a>
+                        <a class="nav-link active" href="${pageContext.request.contextPath}/login.jsp"><fmt:message key="index_jsp.login"/></a>
                     </li>
                 </c:if>
 
@@ -51,11 +52,10 @@
 
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Topic List</a>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><fmt:message key="index_jsp.topic_list"/></a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/controller?command=topicList&page=1&pageSize=6">All
-                            topics</a></li>
+                               href="${pageContext.request.contextPath}/controller?command=topicList&page=1&pageSize=6"><fmt:message key="_menu_jsp.all_topics"/></a></li>
                         <li><a class="dropdown-item"
                                href="${pageContext.request.contextPath}/controller?command=topicList&topic=java&page=1&pageSize=4">JAVA</a>
                         </li>
@@ -72,36 +72,45 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Courses
-                        Info</a>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><fmt:message key="_menu_jsp.courses_info"/></a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/controller?command=commonMainMenu&page=1&pageSize=6">All
-                            courses</a></li>
+                               href="${pageContext.request.contextPath}/controller?command=commonMainMenu&page=1&pageSize=6"><fmt:message key="_menu_jsp.available_courses"/></a></li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/controller?command=sortCoursesByAtoZ&page=1&pageSize=4">Sort
-                            courses A->Z</a></li>
+                               href="${pageContext.request.contextPath}/controller?command=sortCoursesByAtoZ&page=1&pageSize=4"><fmt:message key="_menu_jsp.sort_courses_a_z"/></a></li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/controller?command=sortCoursesByZtoA&page=1&pageSize=4">Sort
-                            courses Z->A</a></li>
+                               href="${pageContext.request.contextPath}/controller?command=sortCoursesByZtoA&page=1&pageSize=4"><fmt:message key="_menu_jsp.sort_courses_z_a"/></a></li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/controller?command=sortCoursesByDuration&page=1&pageSize=4">Sort
-                            courses by Duration</a></li>
+                               href="${pageContext.request.contextPath}/controller?command=sortCoursesByDuration&page=1&pageSize=4"><fmt:message key="_menu_jsp.sort_courses_by_duration"/></a></li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/controller?command=sortCoursesByStudentsCount&page=1&pageSize=4">Sort
-                            courses by Students</a></li>
+                               href="${pageContext.request.contextPath}/controller?command=sortCoursesByStudentsCount&page=1&pageSize=4"><fmt:message key="_menu_jsp.sort_courses_by_students"/></a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link"
-                       href="${pageContext.request.contextPath}/controller?command=teachersListMainMenu&page=1&pageSize=3">Teacher
-                        List</a>
+                       href="${pageContext.request.contextPath}/controller?command=teachersListMainMenu&page=1&pageSize=3"><fmt:message key="index_jsp.teacher_list"/></a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<%--<div class="text-black text-lg-end">--%>
+<%--<form action="changeLocale.jsp" method="post">--%>
+<%--    <fmt:message key="nav_jsp.label.set_locale"/>:--%>
+
+<%--    <select name="locale">--%>
+<%--        <c:forEach items="${applicationScope.locales}" var="locale">--%>
+<%--            <c:set var="selected" value="${locale.key == currentLocale ? 'selected' : '' }"/>--%>
+<%--            <option value="${locale.key}" ${selected}>${locale.value}</option>--%>
+<%--        </c:forEach>--%>
+<%--    </select>--%>
+
+<%--    <input type="submit" value="<fmt:message key='nav_jsp.form.submit_save_locale'/>">--%>
+
+<%--</form>--%>
+<%--</div>--%>
 
 <c:if test="${sessionScope.profileRole == 'ADMIN'}">
     <div class="container mt-3">

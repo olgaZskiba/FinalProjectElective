@@ -669,4 +669,28 @@ public class CourseManager {
         }
         return size;
     }
+
+    public static Topic findTopicIdByTopicName(String topicCourse) throws DBException {
+        Connection connection = null;
+        Topic topic;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(true);
+            topic = dbManager.findTopicIdByName(connection, topicCourse);
+
+        } catch (SQLException e) {
+            log.error("Cannot find course");
+            throw new DBException("Cannot find course");
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    log.error("Cannot close a connection.");
+                }
+            }
+        }
+        return topic;
+    }
+
 }

@@ -30,6 +30,7 @@ public class CommonMainMenuCommand implements Command {
         int pageCount = (int)Math.ceil(size*1.0/pageSize);
         int maxPagePossible = Math.min(page + shift, pageCount);
 
+
         req.setAttribute("commandParam", commandParam);
         req.setAttribute("courseList", courseList);
         req.setAttribute("pageCount", pageCount);
@@ -37,6 +38,11 @@ public class CommonMainMenuCommand implements Command {
         req.setAttribute("pageSize", pageSize);
         req.setAttribute("minPossible", minPossible);
         req.setAttribute("maxPagePossible", maxPagePossible);
+
+
+//        req.getSession().setAttribute("currentPage", "mainMenu.jsp");
+
+
         return "mainMenu.jsp";
     }
 }

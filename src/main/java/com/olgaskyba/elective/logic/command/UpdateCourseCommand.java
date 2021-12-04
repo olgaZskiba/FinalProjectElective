@@ -18,7 +18,7 @@ public class UpdateCourseCommand implements Command {
         String name = req.getParameter("courseName");
         course.setCourseName(name);
         String topicId = req.getParameter("courseTopic");
-        course.setCourseTopic(Integer.parseInt(topicId));
+        course.setCourseTopic(Long.valueOf(topicId));
         String duration = req.getParameter("duration");
         course.setDuration(Integer.parseInt(duration));
 

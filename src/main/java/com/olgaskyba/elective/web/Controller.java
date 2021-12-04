@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/controller")
+@WebServlet(name = "controller", value = "/controller")
 public class Controller extends HttpServlet {
 
     public static final Logger log = LogManager.getLogger(Controller.class);

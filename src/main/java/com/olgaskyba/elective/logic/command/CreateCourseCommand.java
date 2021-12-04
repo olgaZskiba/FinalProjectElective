@@ -3,6 +3,7 @@ package com.olgaskyba.elective.logic.command;
 import com.olgaskyba.elective.exception.DBException;
 import com.olgaskyba.elective.logic.CourseManager;
 import com.olgaskyba.elective.model.Course;
+import com.olgaskyba.elective.model.Topic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +22,7 @@ public class CreateCourseCommand implements Command {
 
         String courseName = req.getParameter("courseName");
         String topicCourse = req.getParameter("courseTopic");
-        Integer topicId = Integer.parseInt(topicCourse);
+        Long topicId = Long.parseLong(topicCourse);
         String durationCourse = req.getParameter("duration");
         Integer duration = Integer.parseInt(durationCourse);
 
@@ -33,7 +34,7 @@ public class CreateCourseCommand implements Command {
             session.setAttribute("errMess", errMess);
             return req.getContextPath().concat("/").concat("courseCreateForm.jsp");
         }
-        if (topicId != null) {
+        if(topicCourse!=null) {
             course.setCourseTopic(topicId);
         } else {
             errMess = "field Topic id can't be empty";

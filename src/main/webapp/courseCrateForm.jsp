@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <html>
 <head>
@@ -31,10 +34,25 @@
             <input type="text" class="form-control" placeholder="Enter course name" name="courseName" id="courseName" required>
         </div>
 
-        <div class="form-group">
-            <label for="courseTopic"><b>Course Topic</b></label>
-            <input type="text" class="form-control" placeholder="Enter course topic" name="courseTopic" id="courseTopic" required>
-        </div>
+
+    <sql:query var="rs" dataSource="jdbc/ConnectPull">
+        SELECT * FROM topic ORDER BY topic_id
+    </sql:query>
+
+    <div class="form-group">
+        <label><b>Course Topic</b></label>
+        <select name="courseTopic">
+            <c:forEach var="row" items="${rs.rows}">
+               <option value="${row.topic_id}">${row.name}</option>
+            </c:forEach>
+        </select>
+    </div>
+
+
+<%--    <div class="form-group">--%>
+<%--            <label for="courseTopic"><b>Course Topic</b></label>--%>
+<%--            <input type="text" class="form-control" placeholder="Enter course topic" name="courseTopic" id="courseTopic" required>--%>
+<%--        </div>--%>
 
         <div class="form-group">
             <label for="duration"><b>Course Duration</b></label>

@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Course implements Serializable {
     private Long idCourse;
     private String courseName;
-    private int courseTopic;
+    private Long courseTopic;
 //    private String startDayCourse;
     private int duration;
 //    private Long teacherId;
@@ -34,11 +34,11 @@ public class Course implements Serializable {
         this.courseName = courseName;
     }
 
-    public int getCourseTopic() {
+    public Long getCourseTopic() {
         return courseTopic;
     }
 
-    public void setCourseTopic(int courseTopic) {
+    public void setCourseTopic(Long courseTopic) {
         this.courseTopic = courseTopic;
     }
 

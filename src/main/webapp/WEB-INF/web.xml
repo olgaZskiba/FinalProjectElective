@@ -7,6 +7,55 @@
         <listener-class>com.olgaskyba.elective.ContextListener</listener-class>
     </listener>
 
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>resources</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
+        <param-value>en</param-value>
+    </context-param>
+    <context-param>
+        <param-name>locales</param-name>
+        <param-value>/WEB-INF/locales.properties</param-value>
+    </context-param>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.olgaskyba.elective.filter.AuthFilter</filter-class>
+        <init-param>
+            <param-name>ADMIN</param-name>
+            <param-value>adminInfoMenu registrationTeacher teachersForAdminMenu editTeacherForCourse updateCourseToTeacher
+                createCourse allCourses editCourse updateCourse deleteCourse approveDeleteCourse
+                allStudents editStudentBlockStatus updateBlockStatusProfile logout</param-value>
+        </init-param>
+        <init-param>
+            <param-name>TEACHER</param-name>
+            <param-value>teacherInfoMenu coursesForTeacherMenu teacherMenuCoursesDetails teacherMenuUpdateGrade
+                teacherMenuApproveUpdateGrade logout</param-value>
+        </init-param>
+        <init-param>
+            <param-name>STUDENT</param-name>
+            <param-value>studentMainMenu studentMenuFutureCourses logout</param-value>
+        </init-param>
+        <init-param>
+            <param-name>outOfControl</param-name>
+            <param-value>login registration topicList commonMainMenu sortCoursesByAtoZ sortCoursesByZtoA
+                sortCoursesByDuration sortCoursesByStudentsCount teachersListMainMenu joinToCourse</param-value>
+        </init-param>
+        <init-param>
+            <param-name>common</param-name>
+            <param-value>logout</param-value>
+<!--                login, registration, topicList, commonMainMenu, sortCoursesByAtoZ, sortCoursesByZtoA,-->
+<!--                sortCoursesByDuration, sortCoursesByStudentsCount, teachersListMainMenu, joinToCourse</param-value>-->
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <servlet-name>controller</servlet-name>
+    </filter-mapping>
+
 <!--    <filter>-->
 <!--        <filter-name>EncodingFilter</filter-name>-->
 <!--        <filter-class>com.olgaskyba.elective.filter.EncodingFilter</filter-class>-->

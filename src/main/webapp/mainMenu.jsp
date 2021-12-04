@@ -8,6 +8,11 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<%--<c:set var="currentAddress" value="mainMenu.jsp" scope="session"/>--%>
+<%--<c:set var="backAddress" value="${pageContext.request.servletPath}" scope="session"/>--%>
+
 
 <%@ taglib prefix="m" uri="/WEB-INF/simpleTag/timeTag.tld"%>
 
@@ -146,6 +151,22 @@ Page ${page} of ${pageCount}
         </div>
     </tr>
 </c:forEach>
+
+<%--    <div class="text-black text-lg-end">--%>
+<%--        <form action="changeLocale.jsp" method="post">--%>
+<%--            <fmt:message key="nav_jsp.label.set_locale"/>:--%>
+
+<%--            <select name="locale">--%>
+<%--                <c:forEach items="${applicationScope.locales}" var="locale">--%>
+<%--                    <c:set var="selected" value="${locale.key == currentLocale ? 'selected' : '' }"/>--%>
+<%--                    <option value="${locale.key}" ${selected}>${locale.value}</option>--%>
+<%--                </c:forEach>--%>
+<%--            </select>--%>
+
+<%--            <input type="submit" value="<fmt:message key='nav_jsp.form.submit_save_locale'/>">--%>
+
+<%--        </form>--%>
+<%--    </div>--%>
 
 <jsp:include page="_footer.jsp"></jsp:include>
 </body>
