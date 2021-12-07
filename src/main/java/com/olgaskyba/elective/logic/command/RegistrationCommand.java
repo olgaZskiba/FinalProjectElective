@@ -3,8 +3,13 @@ package com.olgaskyba.elective.logic.command;
 import com.olgaskyba.elective.exception.DBException;
 import com.olgaskyba.elective.logic.UserManager;
 import com.olgaskyba.elective.model.Profile;
+import com.olgaskyba.elective.recaptcha.VerifyUtils;
+import com.olgaskyba.elective.util.EncryptPassUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +45,7 @@ public class RegistrationCommand implements Command{
             return req.getContextPath().concat("/").concat("registration.jsp");
         }
         if (password!=null && !password.isEmpty()) {
-            profile.setPassword(password);
+            profile.setPassword(EncryptPassUtil.encrypt(password));
         }else {
             mess = "password cannot be empty";
             req.getSession().setAttribute("passwordMess", mess);
@@ -63,8 +68,32 @@ public class RegistrationCommand implements Command{
         profile.setName(name);
         profile.setSurname(surname);
 
+//        String remoteAddr = req.getRemoteAddr();
+//        ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+//        reCaptcha.setPrivateKey("your_private_key");
+//
+//        String challenge = req.getParameter("recaptcha_challenge_field");
+//        String uresponse = req.getParameter("recaptcha_response_field");
+//        ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
+//
+//        if (reCaptchaResponse.isValid()){
+//            mess = "Answer was entered correctly!";
+//        }else {
+//            mess = "Answer is wrong";
+//            return "error.jsp";
+//        }
+        boolean valid = true;
 
         if (UserManager.createProfile(profile)){
+
+            String gRecaptchaResponse = req.getParameter("g-recaptcha-response");
+            System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
+            // Verify CAPTCHA.
+            valid = VerifyUtils.verify(gRecaptchaResponse);
+            if (!valid) {
+                mess = "Captcha invalid!";
+            }
+
             HttpSession session = req.getSession();
             session.setAttribute("login", login);
             log.trace("insert profile and redirect on login page");

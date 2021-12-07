@@ -22,4 +22,5 @@
 <%-- goto back to the settings--%>
 <%--<jsp:forward page="${sessionScope.currentPage}"/>--%>
 <%--<jsp:forward page="index.jsp"/>--%>
+<%--<c:redirect url="${currentAddressPage}">--%>
 <jsp:forward page="${backAddress}"/>

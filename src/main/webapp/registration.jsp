@@ -8,6 +8,8 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%--<%@ page import="net.tanesha.recaptcha.ReCaptcha" %>--%>
+<%--<%@ page import="net.tanesha.recaptcha.ReCaptchaFactory" %>--%>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <html>
 <head>
@@ -17,6 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <title>Registration of User</title>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 <jsp:include page="_header.jsp"></jsp:include>
@@ -65,6 +68,14 @@
             <label for="surname"><b>Last Name</b></label>
             <input type="text" class="form-control" placeholder="Enter Last Name" name="surname" id="surname" required>
         </div>
+
+        <div class="g-recaptcha"
+             data-sitekey="6Lc-OIIdAAAAADH5myha9uMqexc5gUmmfkSgW1M2"></div>
+
+<%--        <%--%>
+<%--            ReCaptcha c = ReCaptchaFactory.newReCaptcha("6Lc-OIIdAAAAADH5myha9uMqexc5gUmmfkSgW1M2", "6Lc-OIIdAAAAAO6D7LfKiP8mJnn5Pcj3RWPwyGN1", false);--%>
+<%--            out.print(c.createRecaptchaHtml(null, null));--%>
+<%--        %>--%>
 
         <hr>
         <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>

@@ -3,6 +3,7 @@ package com.olgaskyba.elective.logic.command;
 import com.olgaskyba.elective.exception.DBException;
 import com.olgaskyba.elective.logic.UserManager;
 import com.olgaskyba.elective.model.Profile;
+import com.olgaskyba.elective.util.EncryptPassUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +31,7 @@ public class LoginCommand implements Command {
 //        profile.setPassword(password);
         Profile profile = null;
         try {
-            profile = UserManager.checkLogic2(login, password);
+            profile = UserManager.checkLogic2(login, EncryptPassUtil.encrypt(password));
         } catch (SQLException e) {
             errorMsg = "Register please!";
             log.trace("User from login form does not exist");
