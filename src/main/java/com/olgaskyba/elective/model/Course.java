@@ -1,18 +1,16 @@
 package com.olgaskyba.elective.model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.Objects;
 
 public class Course implements Serializable {
     private Long idCourse;
     private String courseName;
     private Long courseTopic;
-//    private String startDayCourse;
     private int duration;
-//    private Long teacherId;
-//    private String teacherName;
-//    private String teacherSurname;
+
+    private String infoCourse;
+    private String base64Image;
 
 
     public Course(){ }
@@ -42,15 +40,6 @@ public class Course implements Serializable {
         this.courseTopic = courseTopic;
     }
 
-//    public String getStartDayCourse() {
-//        return startDayCourse;
-//    }
-//
-//    public void setStartDayCourse(String startDayCourse) {
-//        this.startDayCourse = startDayCourse;
-//    }
-
-
     public int getDuration() {
         return duration;
     }
@@ -59,42 +48,33 @@ public class Course implements Serializable {
         this.duration = duration;
     }
 
-//    public Long getTeacherId() {
-//        return teacherId;
-//    }
-//
-//    public void setTeacherId(Long teacherId) {
-//        this.teacherId = teacherId;
-//    }
-//
-//    public String getTeacherName() {
-//        return teacherName;
-//    }
-//
-//    public void setTeacherName(String teacherName) {
-//        this.teacherName = teacherName;
-//    }
-//
-//    public String getTeacherSurname() {
-//        return teacherSurname;
-//    }
-//
-//    public void setTeacherSurname(String teacherSurname) {
-//        this.teacherSurname = teacherSurname;
-//    }
+    public String getInfoCourse() {
+        return infoCourse;
+    }
 
+    public void setInfoCourse(String infoCourse) {
+        this.infoCourse = infoCourse;
+    }
+
+    public String getBase64Image() {
+        return base64Image;
+    }
+
+    public void setBase64Image(String base64Image) {
+        this.base64Image = base64Image;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Course)) return false;
         Course course = (Course) o;
-        return duration == course.duration && Objects.equals(idCourse, course.idCourse) && Objects.equals(courseName, course.courseName) && Objects.equals(courseTopic, course.courseTopic);
+        return duration == course.duration && Objects.equals(idCourse, course.idCourse) && Objects.equals(courseName, course.courseName) && Objects.equals(courseTopic, course.courseTopic) && Objects.equals(infoCourse, course.infoCourse) && Objects.equals(base64Image, course.base64Image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCourse, courseName, courseTopic, duration);
+        return Objects.hash(idCourse, courseName, courseTopic, duration, infoCourse, base64Image);
     }
 
     @Override
@@ -102,8 +82,10 @@ public class Course implements Serializable {
         return "Course{" +
                 "idCourse=" + idCourse +
                 ", courseName='" + courseName + '\'' +
-                ", courseTopic='" + courseTopic + '\'' +
+                ", courseTopic=" + courseTopic +
                 ", duration=" + duration +
+                ", infoCourse='" + infoCourse + '\'' +
+                ", base64Image='" + base64Image + '\'' +
                 '}';
     }
 }

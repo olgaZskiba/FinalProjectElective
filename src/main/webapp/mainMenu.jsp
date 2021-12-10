@@ -127,10 +127,11 @@ Page ${page} of ${pageCount}
 <c:forEach var="sortedDurationList" items="${sortedDurationList}">
     <tr>
         <div class="card">
+            <img src="data:image/jpg;base64,${sortedDurationList.base64Image}" width="500" height="240"/>
             <h5 class="card-header">${sortedDurationList.courseName}</h5>
             <div class="card-body">
                 <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <p class="card-text">${sortedDurationList.infoCourse}</p>
                 <a href="#" class="btn btn-primary">About course</a>
 <%--                <a href="controller?command=joinToCourse&idCourse=${sortedDurationList.idCourse}" class="btn btn-primary">Join the course</a>--%>
             </div>

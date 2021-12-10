@@ -20,7 +20,7 @@
 
 <h3>Create course form</h3>
 <hr/>
-<form name="createCourseForm" method="POST" action="controller">
+<form name="createCourseForm" method="POST" action="controller"  enctype="multipart/form-data">
     <input type="hidden" name="command" value="createCourse"/>
 
     <p style="color: red;">${sessionScope.errMess}</p>
@@ -54,7 +54,23 @@
 <%--            <input type="text" class="form-control" placeholder="Enter course topic" name="courseTopic" id="courseTopic" required>--%>
 <%--        </div>--%>
 
-        <div class="form-group">
+    <div class="form-group">
+        <label for="courseInfo"><b>Course Info</b></label>
+        <input type="text" class="form-control" placeholder="Enter course name" name="courseInfo" id="courseInfo" required>
+    </div>
+
+
+<%--    <form action="controller" method="post" enctype="multipart/form-data">--%>
+<%--        <input type="hidden" name="command" value="createCourseUploadImg"/>--%>
+    <tr>
+        <td>Photo for course:</td>
+        <input type="file" name="file" />
+    </tr>
+<%--        <input type="submit" value="Upload" />--%>
+<%--    </form>--%>
+
+
+    <div class="form-group">
             <label for="duration"><b>Course Duration</b></label>
             <input type="text" class="form-control" placeholder="Enter course duration" name="duration" id="duration" required>
         </div>

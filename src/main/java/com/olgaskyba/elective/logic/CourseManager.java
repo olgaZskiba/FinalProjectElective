@@ -7,6 +7,7 @@ import com.olgaskyba.elective.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -39,6 +40,30 @@ public class CourseManager {
             connection.setAutoCommit(true);
 
             courses = dbManager.getListCourses(connection);
+
+        } catch (SQLException e) {
+            log.error("Cannot select courseList ");
+            throw new DBException("Cannot select courseList ");
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    log.error("Cannot close a connection.");
+                }
+            }
+        }
+        return courses;
+    }
+
+    public static List<Course> findAllCoursesForAssigning() throws DBException {
+        List<Course> courses;
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(true);
+
+            courses = dbManager.getListAvailableCourses(connection); //courses = dbManager.getListCourses(connection);
 
         } catch (SQLException e) {
             log.error("Cannot select courseList ");
@@ -138,17 +163,23 @@ public class CourseManager {
         return false;
     }
 
-    public static boolean createCourseForAdminMenu(Course course) throws DBException {
+    public static boolean createCourseForAdminMenu(Course course, String courseName, String infoCourse, InputStream inputStream) throws DBException {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
-            connection.setAutoCommit(true);
+            connection.setAutoCommit(false);
 
-            if (dbManager.createCourse(connection, course)) {
+            if (dbManager.createCourse(connection, course) && dbManager.createDescriptionCourse(connection,courseName, infoCourse, inputStream)) {
+                connection.commit();
                 return true;
             }
         } catch (SQLException e) {
             log.error("Cannot create course, course = " + course);
+            try {
+                connection.rollback();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             throw new DBException("Cannot create profile, profile = " + course);
         } finally {
             if (connection != null) {
@@ -190,7 +221,30 @@ public class CourseManager {
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(true);
-            if (dbManager.updateCourse(connection, course)) {
+            if (dbManager.updateCourse(connection, course) && dbManager.updateDescriptionCourseOnlyInfo(connection, course)) {
+                return true;
+            }
+        } catch (SQLException e) {
+            log.error("Cannot update course = " + course);
+            throw new DBException("Cannot update course = " + course);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    log.error("Cannot close a connection.");
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean updateEditCourse(Course course, InputStream inputStream) throws DBException {
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(true);
+            if (dbManager.updateCourse(connection, course) && dbManager.updateDescriptionCourse(connection, course, inputStream)) {
                 return true;
             }
         } catch (SQLException e) {
@@ -693,4 +747,20 @@ public class CourseManager {
         return topic;
     }
 
+    public static boolean createDescriptionCourse(String courseName, String infoCourse, InputStream inputStream) {
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(true);
+
+            if(dbManager.createDescriptionCourse(connection,courseName, infoCourse, inputStream)){
+                return true;
+            }
+
+        } catch (SQLException e) {
+            log.error("Can't add course description");
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

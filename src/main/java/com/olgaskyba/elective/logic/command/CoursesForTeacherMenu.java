@@ -16,12 +16,13 @@ public class CoursesForTeacherMenu implements Command {
         String emptyMess = "";
 
         List<ProfileCourse> profileCourses = UserManager.findCoursesForTeacher(loginSession);
-        if (!profileCourses.isEmpty()) {
+            if (profileCourses!=null) {
             req.setAttribute("profileCourses", profileCourses);
             return "teacher.jsp";
-        }else
-            emptyMess = "You haven't assigned courses";
-        req.setAttribute("emptyMess", emptyMess);
-        return "teacher.jsp";
+        }else {
+                emptyMess = "You haven't assigned courses";
+                req.setAttribute("emptyMess", emptyMess);
+                return "teacher.jsp";
+            }
     }
 }

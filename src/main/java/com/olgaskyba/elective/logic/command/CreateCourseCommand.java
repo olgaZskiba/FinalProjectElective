@@ -3,13 +3,20 @@ package com.olgaskyba.elective.logic.command;
 import com.olgaskyba.elective.exception.DBException;
 import com.olgaskyba.elective.logic.CourseManager;
 import com.olgaskyba.elective.model.Course;
+import com.olgaskyba.elective.model.DescriptionCourse;
 import com.olgaskyba.elective.model.Topic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
+
 
 public class CreateCourseCommand implements Command {
 
@@ -49,7 +56,32 @@ public class CreateCourseCommand implements Command {
             return req.getContextPath().concat("/").concat("courseCreateForm.jsp");
         }
 
-        if (CourseManager.createCourseForAdminMenu(course)) {
+        //add info to description course table
+        String infoCourse = req.getParameter("courseInfo");
+
+//        DescriptionCourse descriptionCourse = new DescriptionCourse();
+        if (infoCourse.isEmpty()){
+            errMess = "field Course Info can't be empty";
+            session.setAttribute("errMess", errMess);
+            return req.getContextPath().concat("/").concat("courseCreateForm.jsp");
+        }
+
+        InputStream inputStream = null;
+        try {
+            Part filePart = req.getPart("file");
+            if (filePart!=null){
+                inputStream = filePart.getInputStream();
+            }
+            if (inputStream==null){
+                errMess = "field Course Photo can't be empty";
+                session.setAttribute("errMess", errMess);
+                return req.getContextPath().concat("/").concat("courseCreateForm.jsp");
+            }
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+        }
+
+        if (CourseManager.createCourseForAdminMenu(course, courseName,infoCourse, inputStream)) { //&& CourseManager.createDescriptionCourse(courseName,infoCourse, inputStream)
             session.setAttribute("createCourse", courseName);
             log.trace("create course and redirect on allCourses page");
             return req.getContextPath().concat("/").concat("controller?command=allCourses");
@@ -61,4 +93,5 @@ public class CreateCourseCommand implements Command {
             return req.getContextPath().concat("/").concat("courseCreateForm.jsp");
         }
     }
+
 }

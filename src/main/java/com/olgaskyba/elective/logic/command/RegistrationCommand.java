@@ -8,9 +8,6 @@ import com.olgaskyba.elective.util.EncryptPassUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.tanesha.recaptcha.ReCaptchaImpl;
-import net.tanesha.recaptcha.ReCaptchaResponse;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,7 +15,7 @@ import javax.servlet.http.HttpSession;
 public class RegistrationCommand implements Command{
 
     private static final Logger log = LogManager.getLogger(RegistrationCommand.class);
-//    private static final String ErrorMes = "this field cannot be empty";
+
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DBException {
@@ -68,20 +65,6 @@ public class RegistrationCommand implements Command{
         profile.setName(name);
         profile.setSurname(surname);
 
-//        String remoteAddr = req.getRemoteAddr();
-//        ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-//        reCaptcha.setPrivateKey("your_private_key");
-//
-//        String challenge = req.getParameter("recaptcha_challenge_field");
-//        String uresponse = req.getParameter("recaptcha_response_field");
-//        ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
-//
-//        if (reCaptchaResponse.isValid()){
-//            mess = "Answer was entered correctly!";
-//        }else {
-//            mess = "Answer is wrong";
-//            return "error.jsp";
-//        }
         boolean valid = true;
 
         if (UserManager.createProfile(profile)){

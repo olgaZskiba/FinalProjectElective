@@ -26,9 +26,7 @@ public class LoginCommand implements Command {
         log.trace("login ==> " + login);
         String password = req.getParameter("password");
         log.trace("password ==> " + password);
-//        Profile profile = new Profile();
-//        profile.setLogin(login);
-//        profile.setPassword(password);
+
         Profile profile = null;
         try {
             profile = UserManager.checkLogic2(login, EncryptPassUtil.encrypt(password));

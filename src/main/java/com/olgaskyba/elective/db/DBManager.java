@@ -4,14 +4,20 @@ import com.olgaskyba.elective.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
 public class DBManager {
 
     private static final Logger log = LogManager.getLogger(DBManager.class);
+
+    String errMess = "";
 
     private static final String SQL_INSERT_PROFILE = "INSERT INTO profile (id_prifile, login , password, email, telephone, name, surname, role, block_status) VALUES (DEFAULT,?,?,?,?,?,?,?,DEFAULT)";
     private static final String SQL_GET_PROFILE_BY_LOGIN_PASSWORD = "SELECT * FROM profile WHERE login = ? AND password = ?";
@@ -27,8 +33,15 @@ public class DBManager {
     private static final String SQL_UPDATE_COURSE_FOR_TEACHER = "UPDATE profile_course SET id_course=?, start_day_course=? WHERE id_prifile=?";
     private static final String SQL_INSERT_COURSE = "INSERT INTO course (id_course, course_name, course_topic, duration) VALUES (DEFAULT, ?, ?, ?)";
     private static final String SQL_SELECT_ALL_COURSES = "SELECT * FROM course";
-    private static final String SQL_SELECT_COURSE_BY_ID = "SELECT * FROM course WHERE id_course = ?";
-    private static final String SQL_UPDATE_COURSE = "UPDATE course SET course_name = ?, course_topic = ?, duration = ? WHERE id_course = ?";
+    private static final String SQL_SELECT_ALL_AVAILABLE_COURSES = "SELECT * FROM course WHERE id_course NOT IN(SELECT id_course FROM profile_course)";
+    private static final String SQL_SELECT_COURSE_BY_ID = "SELECT course.id_course, course.course_name, course.course_topic, course.duration, cd.course_info, cd.course_image FROM course LEFT JOIN course_description cd on course.id_course = cd.course_description_id_course WHERE id_course = ?";
+    //"SELECT * FROM course WHERE id_course = ?";
+    private static final String SQL_UPDATE_COURSE_DESCRIPTION_ONLY_INFO = "UPDATE course_description SET course_info =? WHERE course_description_id_course = ?";
+    private static final String SQL_UPDATE_COURSE_WITH_IMAGE = "UPDATE course SET course_name = ?, course_topic = ?, duration = ? WHERE id_course =?";
+    private static final String SQL_UPDATE_DESCRIPTION_COURSE_WITH_IMAGE = "UPDATE course_description SET course_info =?, course_image =? WHERE course_description_id_course = ?";
+
+
+
     private static final String SQL_DELETE_COURSE = "DELETE FROM course WHERE id_course=?";
     private static final String SQL_FIND_ALL_STUDENTS = "SELECT * FROM profile WHERE role ='STUDENT'";
     private static final String SQL_GET_PROFILE_BY_ID = "SELECT * FROM profile WHERE id_prifile=?";
@@ -48,7 +61,8 @@ public class DBManager {
     private static final String SQL_GET_SIZE_COURSES = "SELECT COUNT(*) FROM course";
     private static final String SQL_FIND_ALL_COURSES_BY_A_TO_Z = "SELECT * FROM course ORDER BY course_name LIMIT ? OFFSET ?";
     private static final String SQL_FIND_ALL_COURSES_BY_Z_TO_A = "SELECT * FROM course ORDER BY course_name DESC LIMIT ? OFFSET ?";
-    private static final String SQL_FIND_ALL_COURSES_BY_DURATION = "SELECT * FROM course ORDER BY duration LIMIT ? OFFSET ?";
+    private static final String SQL_FIND_ALL_COURSES_BY_DURATION = "SELECT course.id_course, course.course_name, course.course_topic, course.duration, cd.course_info, cd.course_image FROM course LEFT JOIN course_description cd on course.id_course = cd.course_description_id_course ORDER BY course.duration LIMIT ? OFFSET ?";
+    //"SELECT * FROM course ORDER BY duration LIMIT ? OFFSET ?";
     private static final String SQL_FIND_ALL_COURSES_BY_STUDENTS_COUNT = "SELECT course.id_course, course.course_name, COUNT(g.student_id_prifile) FROM course JOIN gradebook g on course.id_course = g.course_id_course group by g.course_id_course LIMIT ? OFFSET ?";
     private static final String SQL_GET_SIZE_TOPIC = "SELECT COUNT(*) FROM topic";
     private static final String SQL_FIND_ALL_JAVA_COURSES = "SELECT * FROM course WHERE course_topic=1 LIMIT ? OFFSET ?";
@@ -66,6 +80,10 @@ public class DBManager {
     private static final String SQL_INSERT_PROFILE_COURSE = "INSERT INTO profile_course(id_prifile) VALUES (?)";
     private static final String SQL_INSERT_PROFILE_TO_GRADEBOOK = "INSERT INTO gradebook SET student_id_prifile=(SELECT id_prifile FROM profile WHERE id_prifile=?), course_id_course=(SELECT id_course FROM course WHERE id_course=?)";
     private static final String SQL_GET_TOPIC_ID_BY_TOPIC_NAME = "SELECT * FROM topic WHERE name=?";
+    private static final String SQL_SELECT_COURSE_BY_COURSE_NAME = "SELECT  * FROM course WHERE course_name=?";
+    private static final String SQL_INSERT_COURSE_DESCRIPTION = "INSERT INTO course_description(course_description_id_course, course_info, course_image) VALUES ((SELECT id_course FROM course WHERE course_name=?),?,?)";
+    private static final String SQL_FIND_DESCRIPTION_COURSE_BY_NAME ="SELECT * FROM course_description WHERE course_description_id_course=(SELECT id_course FROM course WHERE course_name=?)";
+
 
     private static DBManager instance;
 
@@ -83,6 +101,26 @@ public class DBManager {
         List<Course> courseList = new ArrayList<>();
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_COURSES)) {
+            while (resultSet.next()) {
+                Course course = new Course();
+                course.setIdCourse(resultSet.getLong(1));
+                course.setCourseName(resultSet.getString(2));
+                course.setCourseTopic((resultSet.getLong(3)));
+                course.setDuration((resultSet.getInt(4)));
+                courseList.add(course);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+        return courseList;
+    }
+
+    public List<Course> getListAvailableCourses(Connection connection) {
+        List<Course> courseList = new ArrayList<>();
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_AVAILABLE_COURSES)) {
             while (resultSet.next()) {
                 Course course = new Course();
                 course.setIdCourse(resultSet.getLong(1));
@@ -266,34 +304,127 @@ public class DBManager {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    course.setIdCourse(resultSet.getLong("id_course"));
-                    course.setCourseName(resultSet.getString("course_name"));
-                    course.setCourseTopic(resultSet.getLong("course_topic"));
-                    course.setDuration(resultSet.getInt("duration"));
-                    return course;
+                    course.setIdCourse(resultSet.getLong(1));
+                    course.setCourseName(resultSet.getString(2));
+                    course.setCourseTopic(resultSet.getLong(3));
+                    course.setDuration(resultSet.getInt(4));
+
+                    course.setInfoCourse(resultSet.getString(5));
+
+                    if (resultSet.getBlob(6)!=null) {
+                        InputStream inputStream = resultSet.getBlob(6).getBinaryStream(); //"course_image"
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[4096];
+                        int bytesRead = -1;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                        byte[] imageBytes = outputStream.toByteArray();
+                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                        try {
+                            inputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            outputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        course.setBase64Image(base64Image);
+                        return course;
+                    }else {
+                        errMess = "This course does not have a image";
+                        return course;
+                    }
                 }
             }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+//"UPDATE course, course_description SET course.course_name = ?, course.course_topic = ?, course.duration = ?, course_description.course_info =? WHERE course.id_course = course_description.course_description_id_course = ?"
+    public boolean updateDescriptionCourseOnlyInfo(Connection connection, Course course) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_COURSE_DESCRIPTION_ONLY_INFO)) {
+            preparedStatement.setString(1, course.getInfoCourse());
+            preparedStatement.setLong(2, course.getIdCourse());
+
+            if (preparedStatement.executeUpdate() > 0) { //if (preparedStatement.executeUpdate() > 0) {
+                return true;
+            }
         } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+//    Profile profile = new Profile();
+//        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_PROFILE_BY_ID)) {
+//        preparedStatement.setLong(1, id);
+//        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+//            if (resultSet.next()) {
+//                profile = extractProfile(resultSet);
+
+    public DescriptionCourse findDescriptionCourseByName(Connection connection, Course course) throws SQLException {
+        DescriptionCourse descriptionCourse = new DescriptionCourse();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_DESCRIPTION_COURSE_BY_NAME)) {
+            preparedStatement.setString(1, course.getCourseName());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    descriptionCourse.setIdCourseDescription(resultSet.getLong(1));
+                    descriptionCourse.setCourseInfo(resultSet.getString(2));
+                    if (resultSet.getBlob(3)!=null) {
+                        InputStream inputStream = resultSet.getBlob(3).getBinaryStream(); //"course_image"
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[4096];
+                        int bytesRead = -1;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                        byte[] imageBytes = outputStream.toByteArray();
+                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                        try {
+                            inputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            outputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        descriptionCourse.setCourseImg(base64Image);
+                        return descriptionCourse;
+                    }else {
+                        errMess = "This course does not have a image";
+                        return descriptionCourse;
+                    }
+                }
+            }
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public boolean updateCourse(Connection connection, Course course) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_COURSE)) {
-            preparedStatement.setString(1, course.getCourseName());
-            preparedStatement.setLong(2, course.getCourseTopic());
-            preparedStatement.setInt(3, course.getDuration());
-            preparedStatement.setLong(4, course.getIdCourse());
-            if (preparedStatement.executeUpdate() != 1) {
+    public boolean updateCourse(Connection connection, Course course) throws SQLException {
+            //course.course_name = ?, course.course_topic = ?, course.duration = ?, course_description.course_info =?, course_description.course_image =? WHERE course.id_course = ?"
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_COURSE_WITH_IMAGE)) {
+                preparedStatement.setString(1, course.getCourseName());
+                preparedStatement.setLong(2, course.getCourseTopic());
+                preparedStatement.setInt(3, course.getDuration());
+                preparedStatement.setLong(4, course.getIdCourse());
+
+                if (preparedStatement.executeUpdate() > 0) {
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
                 return false;
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        return false;
     }
 
     public boolean deleteCourseById(Connection connection, Long id) {
@@ -396,6 +527,7 @@ public class DBManager {
         }
         return profileCourseList;
     }
+
 //   gradebook.student_id_prifile, p.name, p.surname, gradebook.course_id_course, c.course_name, pc.start_day_course, gradebook.grade
     public List<GradeBook> findStudentsGradeBookById(Connection connection, Long id) {
         List<GradeBook> gradeBookList = new ArrayList<>();
@@ -622,7 +754,7 @@ public class DBManager {
         }
         return courseList;
     }
-
+//course.id_course, course.course_name, course.course_topic, course.duration, cd.course_info, cd.course_image
     public List<Course> findAllCoursesSortByDurationMainMenu(Connection connection, int offset, int limit) {
         List<Course> courseList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ALL_COURSES_BY_DURATION)) {
@@ -630,10 +762,36 @@ public class DBManager {
             preparedStatement.setInt(2, offset);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    courseList.add(extractCourse(resultSet));
+//                    courseList.add(extractCourse(resultSet));
+                    Course course = new Course();
+                    course.setIdCourse(resultSet.getLong(1));
+                    course.setCourseName(resultSet.getString(2));
+                    course.setCourseTopic(resultSet.getLong(3));
+                    course.setDuration(resultSet.getInt(4));
+                    course.setInfoCourse(resultSet.getString(5));
+
+                    if (resultSet.getBlob(6)!=null) {
+                        InputStream inputStream = resultSet.getBlob(6).getBinaryStream(); //"course_image"
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[4096];
+                        int bytesRead = -1;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                        byte[] imageBytes = outputStream.toByteArray();
+                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                        inputStream.close();
+                        outputStream.close();
+
+                        course.setBase64Image(base64Image);
+                        courseList.add(course);
+                    }else {
+                        course.setBase64Image(null);
+                        courseList.add(course);
+                    }
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
         return courseList;
@@ -939,5 +1097,68 @@ public class DBManager {
             e.printStackTrace();
         }
         return topic;
+    }
+
+    public Course findCourseByName(Connection connection, String courseName) {
+        Course course=null;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_COURSE_BY_COURSE_NAME)) {
+            preparedStatement.setString(1, courseName);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    course.setIdCourse(resultSet.getLong("id_course"));
+                    course.setCourseName(resultSet.getString("course_name"));
+                    course.setCourseTopic(resultSet.getLong("course_topic"));
+                    course.setDuration(resultSet.getInt("duration"));
+                    return course;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean createDescriptionCourse(Connection connection, String courseName, String infoCourse, InputStream inputStream) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_COURSE_DESCRIPTION)) {
+
+            preparedStatement.setString(1, courseName);
+            preparedStatement.setString(2, infoCourse);
+            System.out.println(inputStream);
+            preparedStatement.setBlob(3, inputStream);
+
+            if (preparedStatement.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            String errMess = "ERROR: " + e.getMessage();
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+
+    public boolean updateDescriptionCourse(Connection connection, Course course, InputStream inputStream) throws SQLException {
+        if (findDescriptionCourseByName(connection,course)==null) {
+            if (createDescriptionCourse(connection, course.getCourseName(), course.getInfoCourse(), inputStream)){
+                return true;
+            }
+        }else {
+            //course.course_name = ?, course.course_topic = ?, course.duration = ?, course_description.course_info =?, course_description.course_image =? WHERE course.id_course = ?"
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_DESCRIPTION_COURSE_WITH_IMAGE)) {
+                preparedStatement.setString(1, course.getInfoCourse());
+                preparedStatement.setBlob(2, inputStream);
+                preparedStatement.setLong(3, course.getIdCourse());
+
+                if (preparedStatement.executeUpdate() > 0) {
+                    return true;
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
 }

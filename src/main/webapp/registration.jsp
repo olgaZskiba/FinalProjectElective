@@ -8,8 +8,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%--<%@ page import="net.tanesha.recaptcha.ReCaptcha" %>--%>
-<%--<%@ page import="net.tanesha.recaptcha.ReCaptchaFactory" %>--%>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <html>
 <head>
@@ -56,7 +55,7 @@
     <p style="color: red;">${sessionScope.telMess}</p>
         <div class="form-group">
             <label for="telephone"><b>Telephone</b></label>
-            <input type="text" class="form-control" placeholder="Enter telephone" name="telephone" id="telephone" required>
+            <input type="text" class="form-control" placeholder="380509998877" name="telephone" id="telephone" required>
         </div>
 
         <div class="form-group">
@@ -72,10 +71,6 @@
         <div class="g-recaptcha"
              data-sitekey="6Lc-OIIdAAAAADH5myha9uMqexc5gUmmfkSgW1M2"></div>
 
-<%--        <%--%>
-<%--            ReCaptcha c = ReCaptchaFactory.newReCaptcha("6Lc-OIIdAAAAADH5myha9uMqexc5gUmmfkSgW1M2", "6Lc-OIIdAAAAAO6D7LfKiP8mJnn5Pcj3RWPwyGN1", false);--%>
-<%--            out.print(c.createRecaptchaHtml(null, null));--%>
-<%--        %>--%>
 
         <hr>
         <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>

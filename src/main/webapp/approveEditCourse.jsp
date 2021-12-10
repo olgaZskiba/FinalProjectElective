@@ -22,7 +22,7 @@
 
 <div class="container mt-3">
 
-<form method="POST" action="controller">
+<form method="POST" action="controller" enctype="multipart/form-data">
     <input type="hidden" name="command" value="updateCourse"/>
 
 
@@ -50,6 +50,17 @@
             <input type="text" class="form-control" name="duration" id="duration" value="${courseForEdit.duration}">
         </div>
 
+    <img src="data:image/jpg;base64,${courseForEdit.base64Image}" width="240" height="300"/>
+
+    <tr>
+        <b>Change photo for course: </b>
+        <input type="file" name="file" />
+    </tr>
+
+    <div class="form-group">
+        <label for="infoCourse"><b>Course Info</b></label>
+        <input type="text" class="form-control" name="infoCourse" id="infoCourse" value="${courseForEdit.infoCourse}">
+    </div>
 
         <hr>
         <button type="submit" class="registerbtn btn-primary btn-lg">Save</button>

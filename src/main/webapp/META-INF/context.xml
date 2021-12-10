@@ -9,7 +9,8 @@
     driverClassName="com.mysql.cj.jdbc.Driver"
     url="jdbc:mysql://localhost:3306/elective_db?autoReconnect=true"
     validationQuery="select 1"
-    maxActive="10"
+    maxTotal="8"
     maxIdle="4"/>
 
 </Context>
+<!--        maxActive="10"-->

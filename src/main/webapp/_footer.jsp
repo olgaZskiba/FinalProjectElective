@@ -9,6 +9,6 @@
          pageEncoding="UTF-8"%>
 
 <div class="mt-5 p-4 bg-secondary text-white text-center">
-    <p>Footer</p>
+    <p>My first SUPER Project! @OlgaZ</p>
 </div>
 

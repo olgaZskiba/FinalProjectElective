@@ -3,6 +3,7 @@ package com.olgaskyba.elective.logic.command;
 import com.olgaskyba.elective.exception.DBException;
 import com.olgaskyba.elective.logic.UserManager;
 import com.olgaskyba.elective.model.Profile;
+import com.olgaskyba.elective.util.EncryptPassUtil;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.ErrorMessages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +41,7 @@ public class RegistrationTeacherCommand implements Command{
             return req.getContextPath().concat("/").concat("registerTeacher.jsp");
         }
         if (password!=null && !password.isEmpty()) {
-            profile.setPassword(password);
+            profile.setPassword(EncryptPassUtil.encrypt(password));
         }else {
             mess = "PASSWORD field cannot be empty";
             req.getSession().setAttribute("ErrorMes", mess);

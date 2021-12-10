@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserManager {
@@ -224,12 +225,13 @@ public class UserManager {
     }
 
     public static List<ProfileCourse> findCoursesForTeacher(String loginSession) throws DBException {
+        List<ProfileCourse> courseList = new ArrayList<>();
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(true);
-            List<ProfileCourse> courseList = dbManager.findProfileCourseByLogin(connection, loginSession);
-            if (!courseList.isEmpty()) {
+            courseList = dbManager.findProfileCourseByLogin(connection, loginSession);
+            if (courseList.size()!=0) {
                 return courseList;
             }
         } catch (SQLException e) {

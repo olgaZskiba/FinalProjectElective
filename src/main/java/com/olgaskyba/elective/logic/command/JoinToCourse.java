@@ -42,10 +42,9 @@ public class JoinToCourse implements Command {
         String subject = "Hello " + profile.getName();
         String emailMessage = "<i>Greetings!</i><br>";
         emailMessage += "<b>Thanks, for choose our education platform Some Courses!</b><br>";
-        emailMessage += "<b>You was added to</b><br>" + courseName;
-        emailMessage += "<font color=red>Some Courses</font>";
+        emailMessage += "<b>You was added to </b><br>" + courseName;
+        emailMessage += "<b><font color=red>Some Courses</font></b>";
         HtmlEmailSender htmlEmailSender = new HtmlEmailSender();
-
 
 
             if (login != null) {
@@ -56,16 +55,16 @@ public class JoinToCourse implements Command {
             }
             if (result){
                 //UN COMMENT BEFORE PRESENTATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//                try {
-//                    htmlEmailSender.sendHtmlEmail(host, port, user, pass, toAddress, subject, emailMessage);
-//                    log.trace("Email sent.");
-//                } catch (MessagingException e) {
-//                    log.trace("Failed to sent email.");
-//                    e.printStackTrace();
-//                }
+                try {
+                    htmlEmailSender.sendHtmlEmail(host, port, user, pass, toAddress, subject, emailMessage);
+                    log.trace("Email sent.");
+                } catch (MessagingException e) {
+                    log.trace("Failed to sent email.");
+                    e.printStackTrace();
+                }
                 log.trace("User is logged in");
                 session.setAttribute("login", login);
-                session.setAttribute("idCourse", idCourse);
+                session.setAttribute("idCourse", courseName);
                 return "updateSuccessful.jsp";//new StudentMainMenuCommand().execute(req, resp);//"updateSuccessful.jsp";
             }else
                 log.trace("User is not logged in to gradebook or exist in db");

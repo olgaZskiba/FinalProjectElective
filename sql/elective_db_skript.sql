@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema elective_db
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `elective_db` ;
+CREATE SCHEMA IF NOT EXISTS `elective_db` DEFAULT CHARACTER SET utf8 ;
 USE `elective_db` ;
 
 -- -----------------------------------------------------
@@ -86,6 +86,23 @@ CREATE TABLE IF NOT EXISTS `elective_db`.`course` (
 
 
 -- -----------------------------------------------------
+-- Table `elective_db`.`course_description`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `elective_db`.`course_description` ;
+
+CREATE TABLE IF NOT EXISTS `elective_db`.`course_description` (
+  `course_description_id_course` INT NULL,
+  `course_info` LONGTEXT NULL,
+  `course_image` BLOB NULL,
+  UNIQUE INDEX `course_id_course_UNIQUE` (`course_description_id_course` ASC),
+  CONSTRAINT `fk_course_description_course`
+    FOREIGN KEY (`course_description_id_course`)
+    REFERENCES `elective_db`.`course` (`id_course`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+    
+
+-- -----------------------------------------------------
 -- Table `elective_db`.`gradebook`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `elective_db`.`gradebook` ;
@@ -136,77 +153,74 @@ INSERT INTO role(role_id, role_name) VALUES (DEFAULT, 'ADMIN'), (DEFAULT, 'TEACH
 INSERT INTO topic(topic_id, name) VALUES (DEFAULT, 'JAVA'), (DEFAULT, 'C++'), (DEFAULT, '.NET'), (DEFAULT, 'JavaSkript');
 
 SET @text = 'admin';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'admin@gmail.com', 38050897564, 'Ivan', 'Petrov', 'ADMIN');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '21232f297a57a5a743894a0e4a801fc3', 'admin@gmail.com', 38050897564, 'Ivan', 'Petrov', 'ADMIN');
 
 SET @text = 'teacher';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'teacher@gmail.com', 380508885645, 'Dmytro', 'Kolesnicov', 'TEACHER');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '8d788385431273d11e8b43bb78f3aa41', 'teacher@gmail.com', 380508885645, 'Dmytro', 'Kolesnicov', 'TEACHER');
 
 SET @text = 'teacher1';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'teacher01@gmail.com', 380508545645, 'Yuriy', 'Mischeryacov', 'TEACHER');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '41c8949aa55b8cb5dbec662f34b62df3', 'teacher01@gmail.com', 380508545645, 'Yuriy', 'Mischeryacov', 'TEACHER');
 
 SET @text = 'teacher2';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'teacher02@gmail.com', 380508733625, 'Maksim', 'Veres', 'TEACHER');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, 'ccffb0bb993eeb79059b31e1611ec353', 'teacher02@gmail.com', 380508733625, 'Maksim', 'Veres', 'TEACHER');
 
 SET @text = 'teacher3';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'teacher03@gmail.com', 380508744245, 'Petr', 'Petrov', 'TEACHER');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '82470256ea4b80343b27afccbca1015b', 'teacher03@gmail.com', 380508744245, 'Petr', 'Petrov', 'TEACHER');
 
 SET @text = 'teacher4';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'teacher04@gmail.com', 380508755645, 'Ilya', 'Ilyin', 'TEACHER');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '93dacda950b1dd917079440788af3321', 'teacher04@gmail.com', 380508755645, 'Ilya', 'Ilyin', 'TEACHER');
 
 SET @text = 'teacher5';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'teacher05@gmail.com', 380978744642, 'Konstantin', 'Kostin', 'TEACHER');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, 'ea105f0d381e790cdadc6a41eb611c77', 'teacher05@gmail.com', 380978744642, 'Konstantin', 'Kostin', 'TEACHER');
 
 SET @text = 'teacher6';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'teacher06@gmail.com', 380988725645, 'Artemiy', 'Artem`ev', 'TEACHER');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, 'ff1643afb67a6edb36ee3f6fea756323', 'teacher06@gmail.com', 380988725645, 'Artemiy', 'Artem`ev', 'TEACHER');
 
 SET @text = 'teacher7';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'teacher07@gmail.com', 380978752645, 'Anton', 'Antonov', 'TEACHER');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '71e0f8d7d61b45e27b57c62eb8684583', 'teacher07@gmail.com', 380978752645, 'Anton', 'Antonov', 'TEACHER');
 
 SET @text = 'teacher8';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'teacher08@gmail.com', 380978722645, 'Valeriy', 'Mishun', 'TEACHER');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, 'ee1079e7de417c403b87932ea235dab7', 'teacher08@gmail.com', 380978722645, 'Valeriy', 'Mishun', 'TEACHER');
 
 
 
 SET @text = 'student';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'student@gmail.com', 380508665645, 'Max', 'Shelkovich', 'STUDENT');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, 'cd73502828457d15655bbd7a63fb0bc8', 'student@gmail.com', 380508665645, 'Max', 'Shelkovich', 'STUDENT');
 
 SET @text = 'student1';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'student01@gmail.com', 380508555645, 'Vladimir', 'Petranovskiy', 'STUDENT');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '5e5545d38a68148a2d5bd5ec9a89e327', 'student01@gmail.com', 380508555645, 'Vladimir', 'Petranovskiy', 'STUDENT');
 
 SET @text = 'student2';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'student02@gmail.com', 380508933645, 'Denis', 'Picus', 'STUDENT');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '213ee683360d88249109c2f92789dbc3', 'student02@gmail.com', 380508933645, 'Denis', 'Picus', 'STUDENT');
 
 SET @text = 'student3';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'student03@gmail.com', 380678741645, 'Aleksandr', 'Konduhovich', 'STUDENT');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '8e4947690532bc44a8e41e9fb365b76a', 'student03@gmail.com', 380678741645, 'Aleksandr', 'Konduhovich', 'STUDENT');
 
 SET @text = 'student4';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'student04@gmail.com', 380508795645, 'Denis', 'Golik', 'STUDENT');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '166a50c910e390d922db4696e4c7747b', 'student04@gmail.com', 380508795645, 'Denis', 'Golik', 'STUDENT');
 
 SET @text = 'student5';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'student05@gmail.com', 380508675645, 'Il`ya', 'Shelk', 'STUDENT');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '9fd9280a7aa3578c8e853745a5fcc18a', 'student05@gmail.com', 380508675645, 'Il`ya', 'Shelk', 'STUDENT');
 
 SET @text = 'student6';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'student06@gmail.com', 380508595645, 'Dmitriy', 'Proscura', 'STUDENT');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '27e062bf3df59edebb5db9f89952c8b3', 'student06@gmail.com', 380508595645, 'Dmitriy', 'Proscura', 'STUDENT');
 
 SET @text = 'student7';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'student07@gmail.com', 380508913645, 'Pavel', 'Prats', 'STUDENT');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '72e8744fc2faa17a83dec9bed06b8b65', 'student07@gmail.com', 380508913645, 'Pavel', 'Prats', 'STUDENT');
 
 SET @text = 'student8';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'student08@gmail.com', 380508741645, 'Aleksandr', 'Pryanic', 'STUDENT');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '8aa7fb36a4efbbf019332b4677b528cf', 'student08@gmail.com', 380508741645, 'Aleksandr', 'Pryanic', 'STUDENT');
 
 SET @text = 'student9';
-INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, @text, 'student09@gmail.com', 380508715645, 'Oleg', 'Smytnuy', 'STUDENT');
+INSERT INTO profile (id_prifile, login, password, email, telephone, name, surname, role) VALUES(DEFAULT, @text, '7c8cd5da17441ff04bf445736964dd16', 'student09@gmail.com', 380508715645, 'Oleg', 'Smytnuy', 'STUDENT');
 
 
 INSERT INTO profile_course VALUES (2,1,'2021-01-12');
 INSERT INTO profile_course VALUES (3,2,'2021-11-22');
 INSERT INTO profile_course VALUES (4,3,'2022-01-15');
-INSERT INTO profile_course VALUES (5,4,'2021-11-22');
 INSERT INTO profile_course VALUES (6,5,'2021-02-01');
 INSERT INTO profile_course VALUES (7,6,'2021-11-30');
 INSERT INTO profile_course VALUES (8,7,'2022-03-10');
-INSERT INTO profile_course VALUES (9,8,'2021-11-01');
-INSERT INTO profile_course VALUES (10,9,'2021-10-01');
 
 
 INSERT INTO gradebook (student_id_prifile, course_id_course) VALUES(11,1);
