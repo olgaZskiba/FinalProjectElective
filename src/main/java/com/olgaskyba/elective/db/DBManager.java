@@ -26,22 +26,18 @@ public class DBManager {
             "SELECT p.id_prifile, profile_course.id_course, p.name, p.surname, c.course_name, profile_course.start_day_course, c.duration from profile p " +
                     "LEFT JOIN profile_course on p.id_prifile = profile_course.id_prifile " +
                     "LEFT JOIN course c on c.id_course = profile_course.id_course WHERE p.role='TEACHER'";
-
     //    SELECT profile.id_prifile, profile.name, profile.surname, pc.id_course, pc.start_day_course, c.course_name
 //    FROM profile LEFT JOIN profile_course pc on profile.id_prifile = pc.id_prifile left join  course c on pc.id_course = c.id_course where profile.role = 'TEACHER';
     private static final String SQL_FIND_TEACHER_FOR_NEW_COURSE = "SELECT profile.name, profile.surname,c.course_name,pc.start_day_course, c.duration from profile LEFT JOIN profile_course pc on profile.id_prifile = pc.id_prifile LEFT JOIN course c on c.id_course = pc.id_course WHERE pc.id_prifile=?";
     private static final String SQL_UPDATE_COURSE_FOR_TEACHER = "UPDATE profile_course SET id_course=?, start_day_course=? WHERE id_prifile=?";
     private static final String SQL_INSERT_COURSE = "INSERT INTO course (id_course, course_name, course_topic, duration) VALUES (DEFAULT, ?, ?, ?)";
     private static final String SQL_SELECT_ALL_COURSES = "SELECT * FROM course";
-    private static final String SQL_SELECT_ALL_AVAILABLE_COURSES = "SELECT * FROM course WHERE id_course NOT IN(SELECT id_course FROM profile_course)";
+    private static final String SQL_SELECT_ALL_AVAILABLE_COURSES = "SELECT * FROM course WHERE id_course NOT IN(SELECT id_course FROM profile_course WHERE id_course IS NOT NULL);";
     private static final String SQL_SELECT_COURSE_BY_ID = "SELECT course.id_course, course.course_name, course.course_topic, course.duration, cd.course_info, cd.course_image FROM course LEFT JOIN course_description cd on course.id_course = cd.course_description_id_course WHERE id_course = ?";
     //"SELECT * FROM course WHERE id_course = ?";
     private static final String SQL_UPDATE_COURSE_DESCRIPTION_ONLY_INFO = "UPDATE course_description SET course_info =? WHERE course_description_id_course = ?";
     private static final String SQL_UPDATE_COURSE_WITH_IMAGE = "UPDATE course SET course_name = ?, course_topic = ?, duration = ? WHERE id_course =?";
     private static final String SQL_UPDATE_DESCRIPTION_COURSE_WITH_IMAGE = "UPDATE course_description SET course_info =?, course_image =? WHERE course_description_id_course = ?";
-
-
-
     private static final String SQL_DELETE_COURSE = "DELETE FROM course WHERE id_course=?";
     private static final String SQL_FIND_ALL_STUDENTS = "SELECT * FROM profile WHERE role ='STUDENT'";
     private static final String SQL_GET_PROFILE_BY_ID = "SELECT * FROM profile WHERE id_prifile=?";
@@ -49,7 +45,6 @@ public class DBManager {
     private static final String SQL_FIND_COURSES_FOR_TEACHER_MENU = "SELECT profile_course.id_course, profile_course.start_day_course, c.course_name, c.duration FROM profile_course JOIN course c on c.id_course = profile_course.id_course WHERE profile_course.id_prifile=(SELECT id_prifile FROM profile WHERE login=?)";
     private static final String SQL_FIND_STUDENTS_GRADE_FROM_GREADEBOOK = "SELECT gradebook.student_id_prifile, p.name, p.surname, gradebook.course_id_course, c.course_name, pc.start_day_course, gradebook.grade FROM gradebook JOIN profile p on p.id_prifile = gradebook.student_id_prifile JOIN course c on c.id_course = gradebook.course_id_course JOIN profile_course pc on c.id_course = pc.id_course where gradebook.course_id_course=?";
 //            "SELECT gradebook.student_id_prifile, p.name, p.surname, gradebook.course_id_course, gradebook.grade FROM gradebook JOIN profile p on p.id_prifile = gradebook.student_id_prifile where gradebook.course_id_course=?";
-
     private static final String SQL_FIND_STUDENT_FROM_GRADEBOOK_BY_ID_COURSE_ID_STUDENT = "SELECT p.name, p.surname, gradebook.grade FROM gradebook JOIN profile p on p.id_prifile = gradebook.student_id_prifile where gradebook.course_id_course=? AND gradebook.student_id_prifile=?";
     private static final String SQL_UPDATE_GRADE_IN_GRADEBOOK = "UPDATE gradebook SET grade=? WHERE course_id_course=? AND student_id_prifile =?";
     private static final String SQL_GET_PROFILE_BY_LOGIN = "SELECT * FROM profile WHERE login=?";
@@ -109,7 +104,6 @@ public class DBManager {
                 course.setDuration((resultSet.getInt(4)));
                 courseList.add(course);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             return Collections.emptyList();

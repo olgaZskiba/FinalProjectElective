@@ -225,4 +225,19 @@ public class Test1 {
         }
 
     }
+
+    @Test
+    void getListAvailableCourses() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+        DBManager dbManager = DBManager.getInstance();
+        try (Connection conn = DriverManager.getConnection(url, username, password);) {
+            List<Course> courseList = new ArrayList<>();
+            courseList.add(new Course());
+
+            Assertions.assertEquals(courseList, dbManager.getListAvailableCourses(conn));
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

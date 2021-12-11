@@ -19,7 +19,7 @@ public class AssigningCourseToTeacherCommand implements Command {
         Long idCour = Long.parseLong(courseId);
 
         ProfileCourse assigningTeacherCourse = CourseManager.assigningTeacherNewCourse(idTeach);
-        List<Course> dropdownCourseList = CourseManager.findAllCourses();  //findAllCourses();
+        List<Course> dropdownCourseList = CourseManager.findAllCoursesForAssigning();  //findAllCourses();
 
         req.setAttribute("assigningTeacherCourse", assigningTeacherCourse);
         req.setAttribute("dropdownCourseList", dropdownCourseList);
